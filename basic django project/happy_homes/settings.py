@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'happy_homes.rentals.apps.RentalsConfig',
+    'rest_framework.authtoken',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -127,7 +129,33 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+#using basic auth for all classes
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+            'rest_framework.authentication.BasicAuthentication',
+        ],
+    'DEFAULT_PERMISSION_CLASSES': [
+            'rest_framework.permissions.IsAuthenticated',
+        ],
+    'DEFAULT_THROTTLE_RATES': {
+        'user': '2/min',
+        'jack': '3/min',
+        'scope_throttle': '2/min',
+    }
 }
+
+
+"""
+mention the below in REST_FRAMEWORK 
+the below is only for user but there are other throttle also
+'DEFAULT_THROTTLE_RATES': {
+        'user': '5/min',
+        'jack': '3/min',
+        'scope_throttle': '5/min',
+    }
+    
+in the above case we have set the throttle for all the api to be same 
+but u can have different throttle for different api by inheritance
+"""

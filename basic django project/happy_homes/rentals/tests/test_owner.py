@@ -10,11 +10,11 @@ from ..serilizers.owners import OwnerSerializer
 
 
 class OwnerTestCase(APITestCase):
-    # doing pre-preparation
-    def setUp(self) -> None:
-        self.owner = Owner.objects.create(name="test1", email='test1@example.com', mobile_number='9999999999',
+    @classmethod
+    def setUpTestData(cls):
+        # Set up non-modified objects used by all test methods
+        Owner.objects.create(name="test1", email='test1@example.com', mobile_number='9999999999',
                                           address='test_add')
-
 
     # checking create endpoint working fine
     def test_owner_create(self):
@@ -31,7 +31,7 @@ class OwnerTestCase(APITestCase):
 
     # checking list endpoint
     def test_owner_list(self):
-        response = self.client.get(reverse('owner-list'))
+        response = self.client.get(reverse('owner-list'), format='json')
         # pdb.set_trace()
         owners = Owner.objects.all()
         serializer = OwnerSerializer(owners, many=True)

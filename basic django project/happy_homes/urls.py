@@ -15,9 +15,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework.authtoken.views import obtain_auth_token
+from happy_homes.rentals.views.auth import CustomAuthToken
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include('happy_homes.rentals.urls')),
+    path('auth/', include('rest_framework.urls')),
+
 ]
+
+"""path('gettoken/', obtain_auth_token),"""
+
+
+"""
+so this was api based token generation
+path('gettoken/', CustomAuthToken.as_view()),
+generate token -> http POST http://127.0.0.1:8000/gettoken/ username="eric" password="Satyamsingh@123" 
+"""
+
+"""
+so after api based token generation we will try create token through signal 
+in this case as soon as we create a new user a new token will be created for that user
+
+"""
 
